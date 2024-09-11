@@ -25,6 +25,7 @@ class AuthMiddleware
         // Cek apakah user memiliki salah satu dari peran yang diperbolehkan
         if (!in_array($user->role, $roles)) {
             return response()->json([
+                'code' => 403,
                 'error' => 'Forbidden',
                 'message'=> 'Anda Tidak Memiliki Akses',
         ], 403);
