@@ -19,21 +19,21 @@ class AuthController extends BaseController
 
         $validator = FacadesValidator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users',
             'password' => 'required',
             'c_password' => 'required|same:password',
         ]);
      
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.' ,$validator->errors());       
         }
      
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
-        $success['user'] =  $user;
+        // $success['user'] =  $user;
    
-        return $this->sendResponse($success, 'User register successfully.');
+        return $this->sendResponse($user, 'User register successfully.');
     }
   
   
