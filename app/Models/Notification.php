@@ -14,7 +14,6 @@ class Notification extends Model
         'is_read',
     ];
 
-    // Relasi
     public function user()
     {
         return $this->belongsTo(User::class);
