@@ -55,6 +55,13 @@ class CheckoutController extends Controller
         $cart->items()->delete();
         $cart->delete();
 
-        return response()->json(['success' => 'Order telah berhasil dibuat.'], 201);
+        return response()->json(
+        [
+            'kode' => '200',
+            'status' => 'OK',
+            'message' => 'Order telah berhasil dibuat.',
+        
+        ]
+    , 201);
     }
 }
