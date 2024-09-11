@@ -12,7 +12,6 @@ class Cart extends Model
         'user_id',
     ];
 
-    // Relasi
     public function user()
     {
         return $this->belongsTo(User::class);
