@@ -10,10 +10,10 @@ use App\Models\Notification;
 
 class CheckoutController extends Controller
 {
-    public function checkout (Request $request)
+    public function checkout(Request $request)
     {
         $user = Auth::user();
-        $cart = $user->carts()->latest()->first();
+        $cart = $user->carts()->with('items.product')->latest()->first();
 
         if (!$cart || $cart->items->isEmpty()) {
             return response()->json(['error' => 'Cart is empty'], 400);
@@ -43,25 +43,14 @@ class CheckoutController extends Controller
             $item->product->decrement('stock', $item->quantity);
         }
 
-        // Kirim notifikasi ke admin
-        $adminUsers = \App\Models\User::where('role', 'admin')->get();
-        foreach ($adminUsers as $admin) {
-            $admin->notifications()->create([
-                'message' => "User {$user->name} telah melakukan checkout dengan Order ID: {$order->id}.",
-            ]);
-        }
-
         // Kosongkan cart
         $cart->items()->delete();
         $cart->delete();
 
-        return response()->json(
-        [
-            'kode' => '200',
-            'status' => 'OK',
-            'message' => 'Order telah berhasil dibuat.',
-        
-        ]
-    , 201);
+        return response()->json([
+            'message' => 'Order successfully created.',
+            'code' => 201,
+            'order' => $order->load('items.product')
+        ], 201);
     }
 }
