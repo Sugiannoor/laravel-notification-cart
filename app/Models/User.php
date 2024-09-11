@@ -9,7 +9,6 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory;
     use HasFactory, Notifiable;
 
     /**
@@ -21,7 +20,8 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
-        'role'
+        'role',
+        
     ];
 
     /**
