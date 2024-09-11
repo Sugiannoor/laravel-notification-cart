@@ -20,21 +20,21 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        // Validasi data
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string',
+            'description' => 'nullable|string',
             'price' => 'required|numeric',
             'stock' => 'required|integer',
         ]);
-
-        // Buat produk baru
+    
+        // Buat produk baru setelah validasi berhasil
         $product = Product::create($validated);
-
+    
         return response()->json([
             'message' => 'Product created successfully',
             'code' => 201,
-            'product' => $product,],201);
+            'product' => $product,
+        ], 201);
     }
 
     public function show($id)
